@@ -5,27 +5,27 @@ export const profiles = {
   },
   load: {
     stages: [
-      { duration: '30s', target: 5 },
-      { duration: '2m', target: 10 },
-      { duration: '2m', target: 20 },
-      { duration: '30s', target: 0 },
+      { duration: '20s', target: 2 },
+      { duration: '1m', target: 4 },
+      { duration: '1m', target: 6 },
+      { duration: '20s', target: 0 },
     ],
   },
   stress: {
     stages: [
-      { duration: '30s', target: 10 },
-      { duration: '2m', target: 25 },
-      { duration: '2m', target: 50 },
-      { duration: '30s', target: 0 },
+      { duration: '20s', target: 3 },
+      { duration: '1m', target: 8 },
+      { duration: '1m', target: 12 },
+      { duration: '20s', target: 0 },
     ],
   },
   spike: {
     stages: [
+      { duration: '10s', target: 2 },
+      { duration: '15s', target: 6 },
       { duration: '20s', target: 10 },
-      { duration: '20s', target: 40 },
-      { duration: '40s', target: 80 },
-      { duration: '20s', target: 10 },
-      { duration: '20s', target: 0 },
+      { duration: '10s', target: 2 },
+      { duration: '10s', target: 0 },
     ],
   },
 };
