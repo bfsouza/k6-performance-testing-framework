@@ -16,12 +16,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Start observability stack
-        run: docker compose up -d influxdb grafana
-
-      - name: Wait for services to be ready
-        run: |
-          curl --retry 30 --retry-delay 2 --retry-connrefused http://localhost:8086/ping
-          curl --retry 30 --retry-delay 2 --retry-connrefused http://localhost:3000/api/health
+        run: docker compose up -d --wait --wait-timeout 120 influxdb grafana
 
       - name: Run smoke test
         run: docker compose run --rm k6 run /scripts/tests/smoke.js
@@ -43,12 +38,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Start observability stack
-        run: docker compose up -d influxdb grafana
-
-      - name: Wait for services to be ready
-        run: |
-          curl --retry 30 --retry-delay 2 --retry-connrefused http://localhost:8086/ping
-          curl --retry 30 --retry-delay 2 --retry-connrefused http://localhost:3000/api/health
+        run: docker compose up -d --wait --wait-timeout 120 influxdb grafana
 
       - name: Run load test
         run: docker compose run --rm k6 run /scripts/tests/load.js
@@ -70,12 +60,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Start observability stack
-        run: docker compose up -d influxdb grafana
-
-      - name: Wait for services to be ready
-        run: |
-          curl --retry 30 --retry-delay 2 --retry-connrefused http://localhost:8086/ping
-          curl --retry 30 --retry-delay 2 --retry-connrefused http://localhost:3000/api/health
+        run: docker compose up -d --wait --wait-timeout 120 influxdb grafana
 
       - name: Run stress test
         run: docker compose run --rm k6 run /scripts/tests/stress.js
@@ -97,12 +82,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Start observability stack
-        run: docker compose up -d influxdb grafana
-
-      - name: Wait for services to be ready
-        run: |
-          curl --retry 30 --retry-delay 2 --retry-connrefused http://localhost:8086/ping
-          curl --retry 30 --retry-delay 2 --retry-connrefused http://localhost:3000/api/health
+        run: docker compose up -d --wait --wait-timeout 120 influxdb grafana
 
       - name: Run spike test
         run: docker compose run --rm k6 run /scripts/tests/spike.js
