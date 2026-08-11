@@ -1,0 +1,11 @@
+{
+  "title": "k6 Performance Dashboard",
+  "timezone": "browser",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "10s",
+  "panels": [],
+  "templating": {
+    "list": []
+  }
+}

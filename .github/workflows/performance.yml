@@ -1,0 +1,116 @@
+name: k6 performance
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Start observability stack
+        run: docker compose up -d influxdb grafana
+
+      - name: Wait for services to be ready
+        run: |
+          curl --retry 30 --retry-delay 2 --retry-connrefused http://localhost:8086/ping
+          curl --retry 30 --retry-delay 2 --retry-connrefused http://localhost:3000/api/health
+
+      - name: Run smoke test
+        run: docker compose run --rm k6 run /scripts/tests/smoke.js
+
+      - name: Show container logs on failure
+        if: failure()
+        run: docker compose logs --no-color
+
+      - name: Stop services
+        if: always()
+        run: docker compose down -v
+
+  load:
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Start observability stack
+        run: docker compose up -d influxdb grafana
+
+      - name: Wait for services to be ready
+        run: |
+          curl --retry 30 --retry-delay 2 --retry-connrefused http://localhost:8086/ping
+          curl --retry 30 --retry-delay 2 --retry-connrefused http://localhost:3000/api/health
+
+      - name: Run load test
+        run: docker compose run --rm k6 run /scripts/tests/load.js
+
+      - name: Show container logs on failure
+        if: failure()
+        run: docker compose logs --no-color
+
+      - name: Stop services
+        if: always()
+        run: docker compose down -v
+
+  stress:
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Start observability stack
+        run: docker compose up -d influxdb grafana
+
+      - name: Wait for services to be ready
+        run: |
+          curl --retry 30 --retry-delay 2 --retry-connrefused http://localhost:8086/ping
+          curl --retry 30 --retry-delay 2 --retry-connrefused http://localhost:3000/api/health
+
+      - name: Run stress test
+        run: docker compose run --rm k6 run /scripts/tests/stress.js
+
+      - name: Show container logs on failure
+        if: failure()
+        run: docker compose logs --no-color
+
+      - name: Stop services
+        if: always()
+        run: docker compose down -v
+
+  spike:
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Start observability stack
+        run: docker compose up -d influxdb grafana
+
+      - name: Wait for services to be ready
+        run: |
+          curl --retry 30 --retry-delay 2 --retry-connrefused http://localhost:8086/ping
+          curl --retry 30 --retry-delay 2 --retry-connrefused http://localhost:3000/api/health
+
+      - name: Run spike test
+        run: docker compose run --rm k6 run /scripts/tests/spike.js
+
+      - name: Show container logs on failure
+        if: failure()
+        run: docker compose logs --no-color
+
+      - name: Stop services
+        if: always()
+        run: docker compose down -v
