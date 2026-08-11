@@ -1,6 +1,6 @@
 readme_k6 = """# ⚡ k6 Performance & Load Testing Framework
 
-[![k6 CI](https://github.com/YOUR-USERNAME/k6-performance-testing-framework/actions/workflows/performance.yml/badge.svg)](https://github.com/bfsouza/k6-performance-testing-framework/actions)
+[![k6 CI](https://github.com/bfsouze/k6-performance-testing-framework/actions/workflows/performance.yml/badge.svg)](https://github.com/bfsouza/k6-performance-testing-framework/actions)
 ![k6](https://img.shields.io/badge/k6-v0.45%2B-7D46D7?style=flat&logo=k6)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=flat&logo=javascript)
 ![Docker](https://img.shields.io/badge/Docker-Supported-2496ED?style=flat&logo=docker)
